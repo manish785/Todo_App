@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGO_URL)
 });
 
 
-//get api, will fetch all the tasks
+//get api, will fetch all the tasks from the database
 app.get('/', async function(req, res){
     try{
         let todoList = await Todo.find({});
@@ -43,7 +43,7 @@ app.get('/', async function(req, res){
 })
 
 
-//post api, route for adding new task 
+//post api, route for adding new task in the database
 app.post('/newtodo', async function(req, res) {
     var newTask = new Todo({
       name: req.body.name
@@ -59,7 +59,7 @@ app.post('/newtodo', async function(req, res) {
   });
 
 
- // PATCH API, route to update the particular task by id
+ // PATCH API, route to update the particular task by id in the Database
   app.patch('/update/:id', async (req, res) => {
     let taskId = req.params.id; // Get the id from the API
     let updatedTask = req.body.name; // Get the updated task from the request body
@@ -75,8 +75,8 @@ app.post('/newtodo', async function(req, res) {
   });
   
 
-//DELETE API, route to delete the particular task by id
-app.delete('/delete/:id', async (req, res)=>{
+//DELETE API, route to delete the particular task by id through Database
+app.get('/delete/:id', async (req, res)=>{
     let taskId = req.params.id;//get the id from the api 
     try{
         await mongoose.model('Todo').deleteOne({_id: taskId});
@@ -89,7 +89,7 @@ app.delete('/delete/:id', async (req, res)=>{
 });
 
 
-//DELETE ALL TASKS API, route for deleting all tasks
+//DELETE ALL TASKS API, route for deleting all tasks from the database
 app.delete('/delAlltodo', async (req, res)=>{
     try{
         await mongoose.model('Todo').deleteMany({});
